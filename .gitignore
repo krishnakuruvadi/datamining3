@@ -3,3 +3,5 @@ db.sqlite3
 huey.db
 datamining3/collected_files/*
 
+datamining3/huey.db-shm
+datamining3/huey.db-wal
