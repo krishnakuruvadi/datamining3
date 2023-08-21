@@ -34,6 +34,7 @@ def attraction_to_dict(attraction):
             }
 
 def user_rating_to_dict(user_rating):
+    api_key = settings.GOOGLE_API
     attraction = user_rating.attraction
     types = list()
     if attraction.is_park:
@@ -89,18 +90,67 @@ def home_view(request, *args, **kwargs):
                 break
         c = 0
         for ure in UserRecommendations.objects.filter(user=uobj):
-            c += 1
-            context['user_recommendations'].append(attraction_to_dict(ure.attraction))
-            if c > 5:
-                break
+            try:
+                r = UserRatings.objects.get(attraction=popular, user=uobj)
+            except UserRatings.DoesNotExist:
+                c += 1
+                context['user_recommendations'].append(attraction_to_dict(ure.attraction))
+                if c > 5:
+                    break
         zip_obj = ZipCode.objects.get(country=country, zip_code=zip_code)
         c = 0
         for popular in Attraction.objects.filter(zip_code=zip_obj).order_by('-number_of_ratings','-rating'):
-            c += 1
-            context['popular_ratings'].append(attraction_to_dict(popular))
-            if c > 5:
-                break
+            try:
+                r = UserRatings.objects.get(attraction=popular, user=uobj)
+            except UserRatings.DoesNotExist:
+                c += 1
+                context['popular_ratings'].append(attraction_to_dict(popular))
+                if c > 5:
+                    break
         
     print("context", context)
     
     return render(request, "home.html", context)
+
+
+def add_user_rating(request, attraction_id, user_id):
+    context = dict()
+    print(f'attraction_id {attraction_id} user_id {user_id}')
+    context['curr_module_id'] = 'id_dashboard_module'
+    context['user_id'] = user_id
+    context['attraction_id'] = attraction_id
+    a = Attraction.objects.get(id=attraction_id)
+    u = User.objects.get(username=user_id)
+    context['attraction_name'] = a.name
+    context['user_name'] = u.last_name+", "+u.first_name
+    r = None
+    try:
+        r = UserRatings.objects.get(attraction = a, user=u)
+        context['rating'] = r.rating
+    except Exception as ex:
+        pass
+    if request.method == 'POST':
+        print(request.POST)
+        #user = request.POST['user']
+        #attraction = request.POST['attraction']
+        context['rating'] = request.POST['rating']
+        try:
+            if r:
+                r.rating = request.POST['rating']
+                r.save()
+                context['message_color'] = 'green'
+                context['message'] = 'Updated rating successfully'
+            else:
+                UserRatings.objects.create(attraction = a,
+                rating = request.POST['rating'],
+                user=u)
+                context['message_color'] = 'green'
+                context['message'] = 'Added rating successfully'
+        except Exception as ex:
+            print(f'failed to add user rating {ex}')
+            context['message_color'] = 'red'
+            context['message'] = 'Failed to add rating'
+    
+    print("context", context)
+    
+    return render(request, "add_user_rating.html", context)

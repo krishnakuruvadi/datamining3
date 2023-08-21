@@ -15,6 +15,9 @@ def get_tasks(request):
         'get_local_attractions': {
             'description':'Get local attractions'
         },
+        'add_recommendations': {
+            'description':'Add recommendations to users'
+        },
     }
     for task in available_tasks.keys():
         found = False

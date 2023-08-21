@@ -2,13 +2,14 @@ from huey.contrib.djhuey import task, periodic_task, db_task, db_periodic_task, 
 from huey import crontab
 from .models import Task, TaskState
 import datetime
-from internals.models import ZipCode
+from internals.models import ZipCode, Attraction
 from django.conf import settings
 import requests
 from django.db import IntegrityError
 from internals.helper import add_or_update_attractions
-
-
+import pandas as pd
+from django.contrib.auth.models import User
+from pages.models import UserRatings
 
 def set_task_state(name, state):
     try:
@@ -83,3 +84,34 @@ def fetch_attractions(zip_code_obj, radius):
         add_or_update_attractions(data['results'], zip_code_obj)
     else:
         print(f"ignoring result {data} and status:{data['status']}")
+
+
+@db_periodic_task(crontab(minute='0', hour='*/12'))
+def add_recommendations():
+    '''
+    df = pd.DataFrame(list(BlogPost.objects.all().values()))
+    df = pd.DataFrame(list(BlogPost.objects.filter(date__gte=datetime.datetime(2012, 5, 1)).values()))
+
+    # limit which fields
+    df = pd.DataFrame(list(BlogPost.objects.all().values('author', 'date', 'slug')))
+    '''
+    users_df = pd.DataFrame(list(User.objects.all().values('id', 'username')))
+    attractions_df = pd.DataFrame(list(Attraction.objects.all().values('id','name', 'is_park', 'is_tourist_attraction', 'is_point_of_interest' , 'is_establishment', 'place_id' )))
+    
+    users_df.rename(columns={'id': 'userId'}, inplace=True)
+    attractions_df.rename(columns={'id': 'attractionId'}, inplace=True)
+  
+    # Create the pandas DataFrame
+    data = list()
+    for uro in UserRatings.objects.all():
+        data.append([uro.user.id, uro.attraction.id, uro.rating])
+    ratings_df = pd.DataFrame(data, columns=['userId', 'attractionId', 'rating'])
+
+    print(f'users:')
+    print(f'{users_df.head()}')
+    print(f'attractions:')
+    print(f'{attractions_df.head()}')
+    print(f'ratings:')
+    print(f'{ratings_df.head()}')
+
+

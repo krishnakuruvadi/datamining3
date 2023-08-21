@@ -9,7 +9,7 @@ from .helper import get_attractions
 from django.conf import settings
 import json
 from django.contrib.auth.models import User
-
+from tasks.tasks import add_zip_code
 
 # Create your views here.
 def common_list_view(request):
@@ -40,6 +40,26 @@ def add_user(request):
             context['message'] = 'Failed to add user'
             context['message_color'] = 'red'
             print(f'failed to add user {ex}')
+    return render(request, template, context)
+
+
+def add_zip_code_view(request):
+    context = dict()
+    template = 'internals/add_zip_code.html'
+    context['curr_module_id'] = 'id_internals_module'
+    context['countries'] = ['USA', 'India']
+    if request.method == 'POST':
+        print(request.POST)
+        country = request.POST['country']
+        zip_code = request.POST['zip_code']
+        try:
+            add_zip_code(country=country, zip_code=zip_code)
+            context['message'] = 'Add zip code successful'
+            context['message_color'] = 'green'
+        except Exception as ex:
+            context['message'] = 'Failed to add zip code'
+            context['message_color'] = 'red'
+            print(f'failed to add zip code {ex}')
     return render(request, template, context)
 
 class ZipCodeListView(ListView):
