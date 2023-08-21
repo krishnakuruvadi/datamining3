@@ -1,0 +1,352 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap');
+
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing:border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body
+{
+    min-height: 100vh;
+    background: #fff;
+}
+
+.navigation
+{
+    position: fixed;
+    width: 250px;
+    height: calc(100vh - 60px);
+    background: #593f75;
+    transition: 0.5s;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    z-index: 90;
+}
+
+.main
+{
+    margin-left:255px;
+    margin-top: 0px;
+    transition: 0.5s;
+    overflow:scroll;
+    scroll-behavior: auto;
+    padding: 0px 10px 0px 10px;
+    z-index: 80;
+}
+
+.logo
+{
+    margin-left:60px;
+    padding: 0px 0px 0px 0px;
+    transition: 0.5s;
+}
+
+.navigation.active
+{
+    width: 65px;
+}
+
+.main.deactive
+{
+    margin-left: 70px;
+}
+
+.logo.deactive
+{
+    margin-left: 70px;
+}
+
+.navigation ul
+{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+}
+
+.navigation ul li:hover
+{
+    background: #368abf;
+}
+
+.navigation ul li
+{
+    position: relative;
+    width: 100%;
+    list-style: none;
+}
+
+.navigation ul li.active
+{
+    background: #9b7db8;
+}
+
+.navigation ul li a
+{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: #fff;
+}
+
+.navigation ul li a .icon
+{
+    position: relative;
+    display: block;
+    min-width: 60px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0px 30px 0px 0px;
+}
+
+.navigation ul li a .icon .fas
+{
+    font-size: 20px;
+}
+
+.navigation ul li a .title
+{
+    position: relative;
+    display: block;
+    padding: 0px 0px 0px 0px;
+    margin-left:0;
+    margin-right: 10px;
+    height: 30px;
+    line-height: 30px;
+    text-align: start;
+    white-space: nowrap;
+}
+
+.menu-container{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 100%;
+    height:60px;
+    background: #593f75;
+    position: sticky;
+    z-index: 100;
+}
+
+.navbar-brand{
+    color: #ffffff;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.brand-name{
+    padding-left: 10px;
+}
+
+.toggle
+{
+    position: absolute;
+    top:0;
+    right:0;
+    width: 60px;
+    height:60px;
+    cursor: pointer;
+    text-align: right;
+    padding: 15px 15px 0px 10px;
+}
+
+.toggle:hover
+{
+    background: #368abf;
+}
+
+.toggle:before
+{
+    font-family: "fontAwesome";
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    line-height: 60px;
+    text-align: center;
+    font-size: 24px;
+    color:#fff;
+}
+
+p {
+    font-family : "Verdana";
+    font-size: 14px;
+}
+h1 {
+    font-family: "Verdana";
+    font-size: 14px;
+}
+table {
+    font-family: "Verdana";
+    font-size: 14px;
+}
+div {
+    font-family: "Verdana";
+    font-size: 14px;
+}
+
+.breadcrumb { 
+    list-style: none; 
+    overflow: hidden; 
+    font: 14px Verdana, Helvetica, Arial, Sans-Serif;
+    background-color: transparent; /* Overriding default Bootstrap breadcrumb value of #e9ecef */
+}
+
+.breadcrumb li a {
+    color: white;
+    text-decoration: none; 
+    padding: 5px 15px 5px 12px;
+    background: transparent;
+    position: relative; 
+    display: block;
+    float: left;
+    z-index: 1;
+}
+
+.breadcrumb li a:after { 
+    content: " "; 
+    display: block; 
+    width: 96%; 
+    height: 50%;
+    background: linear-gradient(to bottom, lightblue, rgb(63, 130, 218)); 
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1; 
+    -webkit-transform: skewX(35deg); 
+    transform: skewX(35deg); 
+}
+
+.breadcrumb li a:before { 
+    content: " "; 
+    display: block; 
+    width: 96%; 
+    height: 50%;
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    z-index: -1; 
+    background: linear-gradient(to bottom,  rgb(63, 130, 218), black); 
+    -webkit-transform: skewX(-35deg); 
+    transform: skewX(-35deg);
+}
+
+.breadcrumb li a:hover:after { 
+    background: linear-gradient(to bottom, black,  rgb(63, 130, 218)); 
+}
+
+.breadcrumb li a:hover:before { 
+    background: linear-gradient(to bottom,  rgb(63, 130, 218), lightblue); 
+}
+
+.ui-autocomplete {
+    position: absolute;
+    z-index: 1000;
+    cursor: default;
+    padding: 0;
+    margin-top: 2px;
+    list-style: none;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    -webkit-border-radius: 5px;
+       -moz-border-radius: 5px;
+            border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+       -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.ui-autocomplete > li {
+  padding: 3px 20px;
+}
+.ui-autocomplete > li.ui-state-focus {
+  background-color: #DDD;
+}
+.ui-helper-hidden-accessible {
+  display: none;
+}
+
+.paddingBetweenCols td
+{
+    padding:0 15px;
+}
+
+.confetti{
+    max-width: 100%;
+    display: block;
+    user-select: none;
+ }
+
+/* Change layout of content based on screen size by querying device for width */
+
+@viewport{
+    width: device-width;
+    zoom: 1.0;
+
+}
+
+/* Small devices or portrait mode */
+@media (max-width: 575px)
+{
+    .navigation {
+        left: -100%;
+        height: calc(100vh - 60px);
+        z-index: 90;
+    }
+    .navigation.active {
+        left: 0px;
+        width: 100%;
+    }
+    .main {
+        margin-left:0px;
+        width:100%;
+        padding: 0px 0px 0px 5px;
+        z-index: 80;
+    }
+    .main.deactive {
+        width:0%;
+        display: none;
+    }
+    .logo.deactive {
+        width:0%;
+        display: none;
+    }
+    .logo {
+        left: -60px;
+    }
+    .collapse:not(.show){
+        display: inline-block;
+    }
+    .toggle{
+        position: absolute;
+        top:0;
+        right:0;
+        width: 60px;
+        height:60px;
+        cursor: pointer;
+        text-align: right;
+        padding: 15px 15px 0px 10px;
+    }
+    .menu-container{
+        position: absolute;
+        top:0;
+        right:0;
+        width: 100%;
+        height:60px;
+        background: #593f75;
+        position: sticky;
+        z-index: 100;
+    }
+    .navbar-brand{
+        color: #ffffff;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+    }
+    .brand-name{
+        padding-left: 10px;
+    }    
+}

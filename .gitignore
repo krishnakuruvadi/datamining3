@@ -5,3 +5,5 @@ datamining3/collected_files/*
 
 datamining3/huey.db-shm
 datamining3/huey.db-wal
+.DS_Store
+datamining3/env_files/.env

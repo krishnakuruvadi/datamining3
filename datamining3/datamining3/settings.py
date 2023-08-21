@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'huey.contrib.djhuey',
     'pages',
     'tasks',
+    'internals',
 ]
 
 MIDDLEWARE = [
@@ -91,6 +92,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries':{
+                'template_filters': 'datamining3.template_filters',
+            }
         },
     },
 ]

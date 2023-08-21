@@ -6,11 +6,16 @@ from django.views.generic import (
 from .tasks import *
 from shared.utils import get_in_preferred_tz
 
+
 # Create your views here.
 def get_tasks(request):
     template_name = 'tasks/task_list.html'
     
-    available_tasks = {}
+    available_tasks = {
+        'get_local_attractions': {
+            'description':'Get local attractions'
+        },
+    }
     for task in available_tasks.keys():
         found = False
         for task_obj in Task.objects.all():
@@ -65,3 +70,5 @@ class TaskDetailView(DetailView):
         data = super().get_context_data(**kwargs)
         print(data)
         return data
+
+

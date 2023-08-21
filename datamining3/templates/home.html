@@ -41,25 +41,6 @@
 
 {% block applicableactions %} 
   <div class="btn-toolbar mb-2 mb-md-0">
-    <div class="btn-group mr-2">
-      <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-      <button type="button" class="btn btn-sm btn-outline-secondary" id="export">Export</button>
-    </div>
-    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      <span data-feather="calendar"></span>
-      Interval
-      <div class="dropdown-menu" id="chart_interval">
-        <a class="dropdown-item" href="#" id="action-month">1 Month</a>
-        <a class="dropdown-item" href="#" id="action-3month">3 Months</a>
-        <a class="dropdown-item" href="#" id="action-6month">6 Months</a>
-        <a class="dropdown-item" href="#" id="action-1year">1 Year</a>
-        <a class="dropdown-item" href="#" id="action-2year">2 Years</a>
-        <a class="dropdown-item" href="#" id="action-3year">3 Years</a>
-        <a class="dropdown-item" href="#" id="action-5year">5 Years</a>
-        <a class="dropdown-item" href="#" id="action-ytd">YTD</a>
-        <a class="dropdown-item" href="#" id="action-all">Max</a>
-      </div>
-    </button>
     <a style="padding-left:25px;" href="#" data-toggle="modal" data-target="#helpModal"><i class="fa fa-sharp fa-solid fa-question" aria-hidden="true" title="Help" style="font-size: 1.2em;"></i></a>
   </div>
 {% endblock applicableactions %}
@@ -67,7 +48,47 @@
 {% block content %}
   <div id="start">
     <div class="center">
-      Welcome to PortfolioManager.  Start by setting <a href="common/preferences">Preferences</a>, </a>creating <a href="/user">Users</a> and <a href="/goal">Goals</a>
+        <form method="POST">
+            {% csrf_token %}
+              <div class="row">
+  
+                <div class="col-sm-1">
+                  <label for="user" class="col-sm-3 col-form-label">User</label>
+                </div>
+  
+                <div class="col-sm-2">
+                  <div class="md-form mt-0">
+                    <select id="id_user" name="user" class="form-control"></select>
+                  </div>
+                </div>
+  
+                <div class="col-sm-3">
+                  <label for="zero_val" class="col-form-label">Country</label>
+                </div>
+
+                <div class="col-sm-2">
+                    <div class="md-form mt-0">
+                      <select id="id_country" name="country" class="form-control"></select>
+                    </div>
+                </div>
+                
+                <div class="col-sm-3">
+                    <label for="zip_code" class="col-form-label">Zip Code</label>
+                </div>
+  
+                  <div class="col-sm-2">
+                      <div class="md-form mt-0">
+                        <input  type="text" id="id_zip_code" name="zip_code" value="{{zip_code}}" required="true">
+                      </div>
+                  </div>
+                
+  
+                <div class="col-sm-1">
+                  <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+                </div>
+  
+              </div>
+          </form>
     </div>
   </div>
   <div id="tempChart" class='col-sm-12 col-md-6 col-lg-6'>
@@ -549,6 +570,12 @@ Here, you will also track your goal achievement status and characterization of i
   </script>
 
 {% block javascript %}
+{% load static %}
+    <script src="{% static 'common.js' %}"></script>
+    <script>
+    set_user_list({{users|safe}}, '{{user|safe}}');
+    set_country({{countries|safe}}, '{{country|safe}}')
+    </script>
   <script>
       $('#action-week').click(function(e) {
         alert('week');

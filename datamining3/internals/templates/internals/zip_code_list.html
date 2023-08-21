@@ -1,0 +1,52 @@
+{% extends 'base.html' %} 
+{% load template_filters %}
+{% block viewname %}
+  <ul class="breadcrumb">
+    <li><a href="{% url 'internals:common-list' %}">Internals</a></li>
+    <li><a href="#">Zip Codes Being Tracked </a></li>
+  </ul>
+{% endblock %} 
+
+{% block applicableactions %} 
+{% endblock applicableactions %}
+
+{% block canvas %}{% endblock canvas %}
+
+{% block content %}
+  <table class="table table-hover dt-responsive" id="zip-code-table" style="width:100%">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Country</th>
+        <th scope="col">Zip Code</th>
+        <th>Latitude</th>
+        <th>Longitude</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for instance in object_list %}
+      <tr>
+        <th scope="row">{{ instance.id }}</th>
+        <td>{{ instance.country }}</td>
+        <td>
+          <!--a href="{{ instance.get_absolute_url }}"-->{{ instance.zip_code }}<!--/a-->
+        </td>
+        <td>{{instance.latitude}}</td>
+        <td>{{instance.longitude}}</td>
+        <td>
+          <!--a href="{{ instance.get_absolute_url }}historical-points"><i class="far fa-file-alt" aria-hidden="true"></i></a-->
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+
+<script>
+  {% block jquery %}
+  $('#zip-code-table').DataTable({
+        "order": [[ 0, "desc" ]]
+    } );
+  {% endblock jquery %}
+</script>

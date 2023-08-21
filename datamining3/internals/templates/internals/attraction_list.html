@@ -1,0 +1,173 @@
+{% extends 'base.html' %} 
+{% load template_filters %}
+{% block viewname %}
+  <ul class="breadcrumb">
+    <li><a href="{% url 'internals:common-list' %}">Internals</a></li>
+    <li><a href="#">Attractions </a></li>
+  </ul>
+{% endblock %} 
+
+{% block applicableactions %} {% endblock applicableactions %}
+{% block canvas %}{% endblock canvas %}
+
+{% block content %}
+
+<div class="center">
+  <form method="POST">
+      {% csrf_token %}
+        <div class="row">
+          <div class="col-sm-3">
+            <label for="zero_val" class="col-form-label"> </label>
+          </div>
+
+          <div class="col-sm-1">
+            <label for="zero_val" class="col-form-label">Country</label>
+          </div>
+
+          <div class="col-sm-2">
+              <div class="md-form mt-0">
+                <select id="id_country" name="country" class="form-control"></select>
+              </div>
+          </div>
+          <div class="col-sm-1">
+          </div>
+          <div class="col-sm-1">
+              <label for="zip_code" class="col-form-label">Zip Code</label>
+          </div>
+
+            <div class="col-sm-2">
+                <div class="md-form mt-0">
+                  <input  type="text" id="id_zip_code" name="zip_code" value="{{zip_code}}" required="true">
+                </div>
+            </div>
+          
+
+          <div class="col-sm-1">
+            <button type="submit" class="btn btn-primary" name="submit">Submit</button>
+          </div>
+          <div class="col-sm-3">
+            <label for="zip_code" class="col-form-label"></label>
+        </div>
+
+          <div class="col-sm-2">
+              <div class="md-form mt-0">
+              </div>
+          </div>
+        </div>
+    </form>
+</div>
+
+<table class="table table-hover table-condensed dt-responsive" id="attractions-table" style="width:100%">
+  <tbody>
+    {% for instance in attractions %}
+      {% if forloop.counter == 1 %}
+      <tr>
+        <td scope="row">
+          <div class="row">
+            <div class='col-sm-1'></div>
+      {% endif %}
+      {% if forloop.counter|divisibleby:3 %}
+          <div class='col-sm-1'></div>
+          <div class="card" style="width: 18rem;">
+            <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{instance.name}}</h5>
+              <p class="card-text">{{instance.types}}</p>
+            </div>
+            <div class="card-body" style="width: 18rem;">
+              <table>
+                <tr>
+                  <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                  </td>
+                  <td>
+                      {% if instance.rating == 0 %}
+                        <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 1 %}
+                        <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 2 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 3 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 4 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 5 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                      {% endif %}
+                    ({{instance.number_of_ratings}})
+                  </td>
+                </tr>
+              </table>
+              
+
+            </div>
+          </div>
+          </td></tr><tr>
+            <td scope="row">
+              <div class="row">
+                <div class='col-sm-1'></div>
+      {% else %}
+      <div class='col-sm-1'></div>
+      <div class="card" style="width: 18rem;">
+        <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{instance.name}}</h5>
+          <p class="card-text">{{instance.types}}</p>
+        </div>
+        <div class="card-body" style="width: 18rem;">
+          <table>
+            <tr>
+              <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+              </td>
+              <td>
+                      {% if instance.rating == 0 %}
+                        <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 1 %}
+                        <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 2 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 3 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 4 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                      {% endif %}
+                      {% if instance.rating == 5 %}
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                      {% endif %}
+                ({{instance.number_of_ratings}})
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      {% endif %}
+
+    {% endfor %}
+  </tbody>
+</table>
+
+<br>
+{% endblock %}
+
+<script>
+  {% block jquery %}
+  $('#attractions-table').DataTable();
+  {% endblock jquery %}
+</script>
+
+{% block javascript %}
+{% load static %}
+    <script src="{% static 'common.js' %}"></script>
+    <script>
+    set_country({{countries|safe}}, '{{country|safe}}')
+    </script>
+    attractions-table
+{% endblock javascript %}

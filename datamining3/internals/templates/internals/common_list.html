@@ -1,0 +1,77 @@
+{% extends 'base.html' %} 
+{% load template_filters %}
+{% block viewname %}
+  <ul class="breadcrumb">
+    <li><a href="#">Internals </a></li>
+  </ul>
+{% endblock %} 
+
+{% block applicableactions %} {% endblock applicableactions %}
+{% block canvas %}{% endblock canvas %}
+
+{% block content %}
+
+<div class="row">
+  <div class='col-sm-1'></div>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Admin</h5>
+      <h6 class="card-subtitle mb-2 text-muted">Admin View</h6>
+      <p class="card-text">Default Django Admin view to make modifications to db. Needs login</p>
+      <a href="../admin" class="card-link">Admin</a>
+    </div>
+  </div>
+  <div class='col-sm-1'></div>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Tasks</h5>
+      <h6 class="card-subtitle mb-2 text-muted">All Available Tasks</h6>
+      <p class="card-text">Details of tasks (run periodically or based on user interaction) like last run, last run result etc.  All these tasks can be run from here if required</p>
+      <a href="../tasks" class="card-link">Tasks</a>
+    </div>
+  </div>
+  <div class='col-sm-1'></div>
+  <div class="card" style="width: 18rem;">
+    <div class="card-body">
+      <h5 class="card-title">Users</h5>
+      <h6 class="card-subtitle mb-2 text-muted">All Users</h6>
+      <p class="card-text">View of all users registered.</p>
+      <a href="users" class="card-link">Users</a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class='col-sm-1'>&nbsp;</div>
+</div>
+<div class="row">
+    <div class='col-sm-1'></div>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Zip Codes</h5>
+        <h6 class="card-subtitle mb-2 text-muted">All Indices being tracked</h6>
+        <p class="card-text"> View of all zip codes being tracked.</p>
+        <a href="zip_codes" class="card-link">Zip Codes</a>
+      </div>
+    </div>
+    <div class='col-sm-1'></div>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Attractions</h5>
+        <h6 class="card-subtitle mb-2 text-muted"> Attractions information </h6>
+        <p class="card-text"> View tracked attractions </p>
+        <a href="attractions" class="card-link">Attractions</a>
+      </div>
+    </div>
+    <div class='col-sm-1'></div>
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <!--h5 class="card-title">Passwords</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Stored Passwords</h6>
+        <p class="card-text">View and edit stored passwords</p>
+        <a href="passwords" class="card-link">Passwords</a-->
+      </div>
+    </div>
+  </div>
+<br>
+{% endblock %}
