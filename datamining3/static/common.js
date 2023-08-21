@@ -14,7 +14,7 @@ function set_user_list(users, sel_user) {
         // create text node to add to option element (opt)
         opt.appendChild( document.createTextNode(user) );
         // set value property of opt
-        opt.value = x;
+        opt.value = user;
         if (opt.value == sel_user) {
           opt.selected = true;
         }

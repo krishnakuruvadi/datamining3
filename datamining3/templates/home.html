@@ -16,7 +16,7 @@
   .center {
     margin: 0;
     position: absolute;
-    top: 50%;
+    top:25%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
@@ -33,9 +33,9 @@
 
 {% block canvas %}
 <!--div style="width:80%;height:60vh;"-->
-<div style="width:100%;height:70vh;">
+<!--div style="width:100%;height:70vh;">
   <canvas id="myChart"></canvas>
-</div>
+</div-->
 
 {% endblock canvas %}
 
@@ -46,8 +46,7 @@
 {% endblock applicableactions %}
 
 {% block content %}
-  <div id="start">
-    <div class="center">
+  <div>
         <form method="POST">
             {% csrf_token %}
               <div class="row">
@@ -61,8 +60,9 @@
                     <select id="id_user" name="user" class="form-control"></select>
                   </div>
                 </div>
-  
-                <div class="col-sm-3">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-1">
                   <label for="zero_val" class="col-form-label">Country</label>
                 </div>
 
@@ -71,18 +71,22 @@
                       <select id="id_country" name="country" class="form-control"></select>
                     </div>
                 </div>
-                
-                <div class="col-sm-3">
+                <div class="col-sm-1">
+                </div>
+                <div class="col-sm-1">
                     <label for="zip_code" class="col-form-label">Zip Code</label>
                 </div>
   
-                  <div class="col-sm-2">
+                  <div class="col-sm-1">
                       <div class="md-form mt-0">
                         <input  type="text" id="id_zip_code" name="zip_code" value="{{zip_code}}" required="true">
                       </div>
                   </div>
                 
-  
+              </div>
+              <div class="row"><div class="col-sm-6"> &nbsp;</div></div>
+              <div class="row">
+                <div class="col-sm-6"></div>
                 <div class="col-sm-1">
                   <button type="submit" class="btn btn-primary" name="submit">Submit</button>
                 </div>
@@ -90,8 +94,354 @@
               </div>
           </form>
     </div>
-  </div>
-  <div id="tempChart" class='col-sm-12 col-md-6 col-lg-6'>
+  <div>
+    <br><br>
+  <h3>Your Recommendations</h3>
+  <table class="table table-hover table-condensed dt-responsive" id="recommendations-table" style="width:100%">
+    <tbody>
+      {% for instance in user_recommendations %}
+        {% if forloop.counter == 1 %}
+        <tr>
+          <td scope="row">
+            <div class="row">
+              <div class='col-sm-1'></div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+            <div class='col-sm-1'></div>
+            <div class="card" style="width: 18rem;">
+              <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{instance.name}}</h5>
+                <p class="card-text">{{instance.types}}</p>
+              </div>
+              <div class="card-body" style="width: 18rem;">
+                <table>
+                  <tr>
+                    <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                    </td>
+                    <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                      ({{instance.number_of_ratings}})
+                    </td>
+                  </tr>
+                </table>
+                
+  
+              </div>
+            </div>
+            </td></tr><tr>
+              <td scope="row">
+                <div class="row">
+                  <div class='col-sm-1'></div>
+        {% else %}
+        <div class='col-sm-1'></div>
+        <div class="card" style="width: 18rem;">
+          <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{instance.name}}</h5>
+            <p class="card-text">{{instance.types}}</p>
+          </div>
+          <div class="card-body" style="width: 18rem;">
+            <table>
+              <tr>
+                <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                </td>
+                <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                  ({{instance.number_of_ratings}})
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+  
+      {% endfor %}
+    </tbody>
+  </table>
+  <h3>Your Recent Ratings</h3>
+  <table class="table table-hover table-condensed dt-responsive" id="ratings-table" style="width:100%">
+    <tbody>
+      {% for instance in user_ratings %}
+        {% if forloop.counter == 1 %}
+        <tr>
+          <td scope="row">
+            <div class="row">
+              <div class='col-sm-1'></div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+            <div class='col-sm-1'></div>
+            <div class="card" style="width: 18rem;">
+              <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{instance.name}}</h5>
+                <p class="card-text">{{instance.types}}</p>
+              </div>
+              <div class="card-body" style="width: 18rem;">
+                <table>
+                  <tr>
+                    <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                    </td>
+                    <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                      ({{instance.number_of_ratings}})
+                    </td>
+                  </tr>
+                </table>  
+              </div>
+              <div class="card-body" style="width: 18rem;">
+                <table>
+                  <tr>
+                    <td>Your Rating
+                    </td>
+                    <td>
+                        {% if instance.your_rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.your_rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.your_rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.your_rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.your_rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.your_rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                    </td>
+                  </tr>
+                </table>  
+              </div>
+            </div>
+            </td></tr><tr>
+              <td scope="row">
+                <div class="row">
+                  <div class='col-sm-1'></div>
+        {% else %}
+        <div class='col-sm-1'></div>
+        <div class="card" style="width: 18rem;">
+          <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{instance.name}}</h5>
+            <p class="card-text">{{instance.types}}</p>
+          </div>
+          <div class="card-body" style="width: 18rem;">
+            <table>
+              <tr>
+                <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                </td>
+                <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                  ({{instance.number_of_ratings}})
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="card-body" style="width: 18rem;">
+            <table>
+              <tr>
+                <td>Your Rating
+                </td>
+                <td>
+                    {% if instance.your_rating == 0 %}
+                      <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                    {% endif %}
+                    {% if instance.your_rating == 1 %}
+                      <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                    {% endif %}
+                    {% if instance.your_rating == 2 %}
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                    {% endif %}
+                    {% if instance.your_rating == 3 %}
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                    {% endif %}
+                    {% if instance.your_rating == 4 %}
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                    {% endif %}
+                    {% if instance.your_rating == 5 %}
+                      <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    {% endif %}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+  
+      {% endfor %}
+    </tbody>
+  </table>
+<h3>Most Popular</h3>
+  <table class="table table-hover table-condensed dt-responsive" id="popular-table" style="width:100%">
+    <tbody>
+      {% for instance in popular_ratings %}
+        {% if forloop.counter == 1 %}
+        <tr>
+          <td scope="row">
+            <div class="row">
+              <div class='col-sm-1'></div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+            <div class='col-sm-1'></div>
+            <div class="card" style="width: 18rem;">
+              <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 class="card-title">{{instance.name}}</h5>
+                <p class="card-text">{{instance.types}}</p>
+              </div>
+              <div class="card-body" style="width: 18rem;">
+                <table>
+                  <tr>
+                    <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                    </td>
+                    <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                      ({{instance.number_of_ratings}})
+                    </td>
+                  </tr>
+                </table>
+                
+  
+              </div>
+            </div>
+            </td></tr><tr>
+              <td scope="row">
+                <div class="row">
+                  <div class='col-sm-1'></div>
+        {% else %}
+        <div class='col-sm-1'></div>
+        <div class="card" style="width: 18rem;">
+          <img src="{{instance.photo_url}}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{instance.name}}</h5>
+            <p class="card-text">{{instance.types}}</p>
+          </div>
+          <div class="card-body" style="width: 18rem;">
+            <table>
+              <tr>
+                <td><a href="https://www.google.com/maps/place/?q=place_id:{{instance.place_id}}" target="_blank"><img src="https://lh3.googleusercontent.com/9tLfTpdILdHDAvGrRm7GdbjWdpbWSMOa0csoQ8pUba9tLP8tq7M4Quks1xuMQAVnAxVfryiDXRzZ-KDnkPv8Sm4g_YFom1ltQHjQ6Q" class="card-img-top"  style="width: 5rem;"></a>
+                </td>
+                <td>
+                        {% if instance.rating == 0 %}
+                          <i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 1 %}
+                          <i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 2 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 3 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 4 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                        {% endif %}
+                        {% if instance.rating == 5 %}
+                          <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        {% endif %}
+                  ({{instance.number_of_ratings}})
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        {% endif %}
+  
+      {% endfor %}
+    </tbody>
+  </table>
+  <!--div id="tempChart" class='col-sm-12 col-md-6 col-lg-6'>
     <canvas id="myTempChart" margin="auto" position="absolute"></canvas>
   </div>
   <div id="usercharts">
@@ -127,7 +477,8 @@
         </div>
         <br><br>
     {% endfor %}
-  </div>
+  </div-->
+</div>
 {% endblock content %}
 
 <!-- Help Modal -->
