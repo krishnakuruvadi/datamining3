@@ -97,9 +97,13 @@ def home_view(request, *args, **kwargs):
                 context['user_recommendations'].append(attraction_to_dict(ure.attraction))
                 if c > 5:
                     break
-        zip_obj = ZipCode.objects.get(country=country, zip_code=zip_code)
+        zip_codes = list()
+        for i in zip_code.split(","):
+            j = i.replace(' ','')
+            zip_codes.append(j)
+        zip_objs = ZipCode.objects.filter(country=country, zip_code__in=zip_codes)
         c = 0
-        for popular in Attraction.objects.filter(zip_code=zip_obj).order_by('-number_of_ratings','-rating'):
+        for popular in Attraction.objects.filter(zip_code__in=zip_objs).order_by('-number_of_ratings','-rating'):
             try:
                 r = UserRatings.objects.get(attraction=popular, user=uobj)
             except UserRatings.DoesNotExist:

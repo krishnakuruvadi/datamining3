@@ -104,6 +104,10 @@ def add_or_update_attraction(result, zip_code_obj):
 
 def get_attractions(country, zip_code):
     try:
+        if zip_code == '*':
+            zip_objs = ZipCode.objects.filter(country=country)
+            attractions = Attraction.objects.filter(zip_code__in=zip_objs)
+            return attractions
         zip_obj = ZipCode.objects.get(country=country, zip_code=zip_code)
         attractions = Attraction.objects.filter(zip_code=zip_obj)
         return attractions
